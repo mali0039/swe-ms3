@@ -21,7 +21,7 @@ def getBaseImgURL():
     try:
         images = response.json()["images"]
         baseURL = images["base_url"]
-        size = images["poster_sizes"][4]
+        size = images["poster_sizes"][3]
         return baseURL+size
     except KeyError:
         print("Couldn't fetch base img URL!")
@@ -49,9 +49,10 @@ def getRandomMovie():
             title = movie["original_title"]
         tagline = movie["tagline"]
         imgURL = BASE_IMG_URL + "/" + movie["poster_path"]
-        print (imgURL)
-
+        return {"genres": genres, "title": title, "tagline": tagline, "imgURL": imgURL}
 
     except KeyError:
         print("Couldn't fetch trending movies!")
+
+
 getRandomMovie()

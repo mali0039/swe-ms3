@@ -4,8 +4,9 @@ app = flask.Flask(__name__)
 
 @app.route("/")  # Python decorator
 def main():
-    getRandomMovie()
-    return flask.render_template("index.html")
+    movieDetails = getRandomMovie()
+    print(movieDetails)
+    return flask.render_template("index.html", data=movieDetails)
 
 app.run(
     debug=True
