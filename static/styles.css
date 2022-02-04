@@ -20,3 +20,9 @@ video {
     margin-top: 10px;
     height: 100px;
 }
+#wiki {
+    color: white;
+}
+#wiki:visited {
+    color: white;
+}
