@@ -8,7 +8,7 @@ load_dotenv(find_dotenv())
 BASE_MOVIE_URL = "https://api.themoviedb.org/3/movie/"
 BASE_CONFIG_URL = "https://api.themoviedb.org/3/configuration"
 API_KEY = os.getenv("API_KEY")
-MOVIE_IDS = ("238", "496243", "155", "635302")
+MOVIE_IDS = ("238", "496243", "155", "8587")
 params = {
     "api_key": API_KEY,
 }
@@ -48,11 +48,11 @@ def getRandomMovie():
         else:
             title = movie["original_title"]
         tagline = movie["tagline"]
+        date = movie["release_date"]
         imgURL = BASE_IMG_URL + "/" + movie["poster_path"]
-        return {"genres": genres, "title": title, "tagline": tagline, "imgURL": imgURL}
+        return {"genres": genres, "title": title, "tagline": tagline, "imgURL": imgURL, "date": date}
 
     except KeyError:
         print("Couldn't fetch trending movies!")
 
 
-getRandomMovie()

@@ -11,15 +11,17 @@
     <link rel="stylesheet" href="../static/styles.css">
 </head>
 <body>
-    {% if data%}
-    <h1> {{ data["title"] }} </h1>
+    {% if data %}
+    <h1 id="title"> {{ data["title"] }} </h1>
     <img src={{data["imgURL"]}} alt="">
-    <h3>{{data["tagline"]}}</h3>
+    
+    <h3> <em> "{{data["tagline"]}}" </em> </h3>
     <p id="tagline">
         {% for genre in data["genres"] %}
-        {{genre}}
+        <strong> {{genre}} </strong>
         {% endfor %}
     </p>
+    <p><a href="https://en.wikipedia.org/?curid={{id}}">Wiki Page</a></p>
     {% else %}
     <h1>Failed to load data.</h1>
     <img src="../static/cat.gif" alt="">

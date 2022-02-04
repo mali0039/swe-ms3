@@ -13,6 +13,7 @@ body {
 }
 #tagline {
     margin-bottom: none !important;
+    color: deepskyblue;
 }
 video {
     margin-top: 10px;
