@@ -1,5 +1,3 @@
-# https://en.wikipedia.org/w/api.php?action=query&list=search&utf8=&format=json&srsearch=The Dark Knight
-
 import requests
 
 BASE_URL = "https://en.wikipedia.org/w/api.php"
@@ -23,5 +21,4 @@ def getWikiURL(movie):
         return firstResult
     except KeyError:
         print("Couldn't fetch base img URL!")
-
-print(getWikiURL("The Dark Knight"))
+        return ""

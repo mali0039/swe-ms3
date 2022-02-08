@@ -25,6 +25,7 @@ def getBaseImgURL():
         return baseURL+size
     except KeyError:
         print("Couldn't fetch base img URL!")
+        return ""
 
 
 BASE_IMG_URL = getBaseImgURL()
@@ -54,5 +55,4 @@ def getRandomMovie():
 
     except KeyError:
         print("Couldn't fetch trending movies!")
-
-
+        return {}
