@@ -1,6 +1,6 @@
-import requests
 import random
 import os
+import requests
 from dotenv import find_dotenv, load_dotenv
 
 load_dotenv(find_dotenv())
@@ -13,28 +13,28 @@ params = {
     "api_key": API_KEY,
 }
 
-def getBaseImgURL():
+def get_base_image_url():
     response = requests.get(
         BASE_CONFIG_URL,
         params=params,
     )
     try:
         images = response.json()["images"]
-        baseURL = images["base_url"]
+        base_url = images["base_url"]
         size = images["poster_sizes"][3]
-        return baseURL+size
+        return base_url+size
     except KeyError:
         print("Couldn't fetch base img URL!")
         return ""
 
 
-BASE_IMG_URL = getBaseImgURL()
+BASE_IMG_URL = get_base_image_url()
 
 
-def getRandomMovie():
-    randomID = random.randint(0,3)
+def get_random_movie():
+    random_id = random.randint(0,3)
     response = requests.get(
-        BASE_MOVIE_URL + MOVIE_IDS[randomID],
+        BASE_MOVIE_URL + MOVIE_IDS[random_id],
         params=params,
     )
 
@@ -50,8 +50,9 @@ def getRandomMovie():
             title = movie["original_title"]
         tagline = movie["tagline"]
         date = movie["release_date"]
-        imgURL = BASE_IMG_URL + "/" + movie["poster_path"]
-        return {"genres": genres, "title": title, "tagline": tagline, "imgURL": imgURL, "date": date}
+        img_url = BASE_IMG_URL + "/" + movie["poster_path"]
+        return {"genres": genres, "title": title, "tagline": tagline,
+        "img_url": img_url, "date": date}
 
     except KeyError:
         print("Couldn't fetch trending movies!")

@@ -1,16 +1,18 @@
-import flask
-from tmbd import getRandomMovie
 import os
+import flask
+from tmbd import get_random_movie
+from wiki import get_wiki_url
+
 app = flask.Flask(__name__)
-from wiki import getWikiURL
+
 @app.route("/")  # Python decorator
 def main():
-    movieDetails = getRandomMovie()
-    id= getWikiURL(movieDetails["title"] + movieDetails["date"])
-    print(id)
-    return flask.render_template("index.html", data=movieDetails, id=id)
+    movie_details = get_random_movie()
+    wiki_id= get_wiki_url(movie_details["title"] + movie_details["date"])
+    print(wiki_id)
+    return flask.render_template("index.html", data=movie_details, wiki_id=wiki_id)
 
 app.run(
     host=os.getenv('IP', '0.0.0.0'),
-    port=int(os.getenv('PORT', 8080)),
+    port=int(os.getenv('PORT', '8080')),
 )

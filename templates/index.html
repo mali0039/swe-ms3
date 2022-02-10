@@ -13,7 +13,7 @@
 <body>
     {% if data %}
     <h1 id="title"> {{ data["title"] }} </h1>
-    <img src={{data["imgURL"]}} alt="">
+    <img src={{data["img_url"]}} alt="">
     
     <h3> <em> "{{data["tagline"]}}" </em> </h3>
     <p id="tagline">
@@ -21,7 +21,7 @@
         <strong> {{genre}} </strong>
         {% endfor %}
     </p>
-    <p><a id="wiki" href="https://en.wikipedia.org/?curid={{id}}">Wiki Page</a></p>
+    <p><a id="wiki" href="https://en.wikipedia.org/?curid={{wiki_id}}">Wiki Page</a></p>
     {% else %}
     <h1>Failed to load data.</h1>
     <img src="../static/cat.gif" alt="">

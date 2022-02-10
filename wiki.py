@@ -10,15 +10,15 @@ params = {
     "srsearch": ""
 }
 
-def getWikiURL(movie):
+def get_wiki_url(movie):
     params["srsearch"] = movie + " (film)"
     response = requests.get(
         BASE_URL,
         params=params,
     )
     try:
-        firstResult = response.json()["query"]["search"][0]["pageid"]
-        return firstResult
+        first_result = response.json()["query"]["search"][0]["pageid"]
+        return first_result
     except KeyError:
         print("Couldn't fetch base img URL!")
         return ""
