@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TMBD</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai+Looped&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/styles.css">
+</head>
+
+<body>
+    <h1>Movie Discovery</h1>
+    <p>Discover new movies or learn more about some of your favorites</p>
+    <div class="loginBox">
+        <h1 id="login-text">Login</h1>
+        <form action="/login" method="POST">
+            <input maxlength="24" placeholder="Enter username" name="username" id="username" type="text">
+            <p></p>
+            <button id="loginButton" type="submit">Login</button>
+        </form>
+        <p>New user? <a href="/signup">Sign up here</a> </p>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class=flashes>
+            {% for message in messages %}
+            <strong>{{ message }}</strong>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+    </div>
+
+
+
+
+</body>
+
+</html>
