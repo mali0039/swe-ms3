@@ -1,6 +1,6 @@
 requests
 python-dotenv
 Flask
-flask_login
-flask_alchemy
+flask-login
+flask-alchemy
 psycog2-binary
