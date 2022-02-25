@@ -16,8 +16,9 @@ https://peaceful-anchorage-37623.herokuapp.com/
 1. `pip install Flask`
 2. `pip install requests`
 3. `pip install python-dotenv`
-4. `pip install flask_sqlalchemy`
-5. `pip install flask_login`
+4. `pip install Flask-SQLAlchemy`
+5. `pip install flask-login`
+6. `pip install psycopg2-binary`
 
 ### Setup
 
