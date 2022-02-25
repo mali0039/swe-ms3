@@ -25,6 +25,7 @@ https://peaceful-anchorage-37623.herokuapp.com/
 1. Create `.env` file in your main directory
 2. Add your TMBD key from https://developers.themoviedb.org/3/getting-started/introduction to your .env file and name it: `API_KEY`
 3. Add your database url to the .env as `DB_URL`
+4. Add a secret key to your .env as `SECRET_KEY`
 
 ### Run application
 
