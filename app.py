@@ -69,7 +69,7 @@ def login():
 def signup():
     if flask.request.method == "POST":
         username = flask.request.form["username"]
-        if (len(username.strip()) >= 3):
+        if len(username.strip()) >= 3:
             user = User(username)
             existing = User.query.filter_by(username=username).all()
             if not existing:
@@ -86,7 +86,7 @@ def signup():
             flask.flash("Empty usernames are not allowed!")
         #Redirect to signup if any errors
         return flask.redirect(flask.url_for("signup"))
-    #GET route 
+    #GET route
     return flask.render_template("signup.html")
 
 
@@ -103,7 +103,7 @@ def post_comment(movie_id):
         flask.request.form["rating"],
     )
     #Ensure comment length > 3
-    if (len(comment_text.strip()) >= 3):
+    if len(comment_text.strip()) >= 3:
         comment = Comment(current_user.username, movie_id, comment_text, comment_rating)
         db.session.add(comment)
         db.session.commit()
