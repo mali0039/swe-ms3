@@ -3,4 +3,4 @@ python-dotenv
 Flask
 flask_login
 flask_alchemy
-psycog2
+psycog2-binary
