@@ -2,5 +2,5 @@ requests
 python-dotenv
 Flask
 flask-login
-flask-alchemy
+Flask-SQLAlchemy
 psycog2-binary
