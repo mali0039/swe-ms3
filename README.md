@@ -16,25 +16,26 @@ https://peaceful-anchorage-37623.herokuapp.com/
 1. `pip install Flask`
 2. `pip install requests`
 3. `pip install python-dotenv`
+4. `pip install flask_sqlalchemy`
+5. `pip install flask_login`
 
 ### Setup
 
 1. Create `.env` file in your main directory
-2. Add your TMBD key from https://developers.themoviedb.org/3/getting-started/introduction with the line: `export API_KEY='YOUR_KEY'`
+2. Add your TMBD key from https://developers.themoviedb.org/3/getting-started/introduction to your .env file and name it: `API_KEY`
+3. Add your database url to the .env as `DB_URL`
 
 ### Run application
 
 1. Run command in terminal `python app.py`
 2. Open localhost link outputted in the terminal.
 
-## Issues Encountered
+## How implementation differed from planning
 
-1. Finding the right Wikipedia article was tricky. Sometimes it would return an incorrect article that was similar but not an exact match. With help from the TA, I brainstormed different approaches and found that adding dates to my search helped tremendously. I added the date of the film to the wiki search, narrowing the results down. 
+When planning I envisoned each user model to have a list of comments. This way, comments would be linked to a specific user, but during implementation I changed it so that comments store a username, making it easier to display usernames alongside comments. All the data would be retrieved simply by fetching all comments.
 
-2. Searching through API responses for the right information was cumbersome. I had used Postman before but didn't realize how effective it could be sifting through large blobs of JSON. I decided to use Postman which made it much easier to read the JSON responses and much faster to find what I needed.
+## Technical Issues Encountered
 
-## Features to add
+1. I encountered an issue where each movie could only have a single comment under it. The error mentioned that I defined the movie_ids attribute of the comments to be unique, which caused the issue. To resolve it, I dropped the comments table and modified the movie_ids column so it was no longer unique. This fixed my issue.
 
-1. Adding the cast of the movie to the displayed information. Would be simple I believe, just retrieving it from the response and templating it in the HTML.
-
-2. Showing similar movies based on the genres. To do this, I'd have to search movies in the TMBD API by genre and find those with above a certain amount of matching genres and display those. 
+2. I encountered an issue where I wasn't sure how to retrieve the movie id that would be stored with the comment. I searched up route variables in flask and figured out that I could append the movie id to the route and retreive it in the function as a parameter. This allowed me to store the movie id with the comment. 

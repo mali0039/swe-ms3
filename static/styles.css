@@ -26,3 +26,92 @@ video {
 #wiki:visited {
     color: white;
 }
+#logForm{
+   display: flex;
+   align-items: flex-end;
+   justify-content: flex-end;
+}
+
+#logoutButton {
+    padding: 10px;
+    font-weight: bold;
+    font-size: 24px;
+    border: none;
+    background-color: #121212;
+    color: white;
+}
+#logoutButton:hover {
+    cursor: pointer;
+}
+#commentContainer{
+    width: 80%;
+    border: 3px solid white;
+    margin: 0 auto;
+    background-color: #242222;
+    margin-top: 50px;
+    border-radius: 20px;
+}
+#commentBox {
+    height: 50px;
+    width: 50vw;
+    font-size: 20px;
+}
+.comment {
+    border-bottom: 1px solid white;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+.cols {
+    display: grid;
+    border-bottom: 1px solid white;
+
+    grid-template-columns: 1fr 1fr 1fr;
+}
+#rating {
+    width: 50px;
+    height: 53px;
+    margin-top: -5px;
+}
+#postComment {
+    width: 100px;
+    height: 50px;
+    background-color: #242222;
+    border: none;
+    color: white;
+    font-size: 20px;
+    border-radius: 20px;
+
+}
+#postComment:hover{
+    cursor: pointer;
+}
+.loginBox {
+    width: 900px;
+    height: 400px;
+    margin: 0 auto;
+    margin-top: 5%;
+    text-align: center;
+    background-color: #242222;
+}
+#username {
+    margin-top: 50px;
+    width: 400px;
+    height: 30px;
+    font-size: 24px;
+    border-radius: 10px;
+}
+.commentText {
+    overflow: hidden;
+}
+#loginButton {
+    width: 100px;
+    height: 50px;
+    background-color: #121212;
+    border: none;
+    color: white;
+    font-size: 20px;
+    border-radius: 20px;
+}
+#login-text {
+    margin-top: 20px !important;
+}
