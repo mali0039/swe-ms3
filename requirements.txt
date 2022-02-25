@@ -1,3 +1,6 @@
 requests
 python-dotenv
 Flask
+flask_login
+flask_alchemy
+psycog2
