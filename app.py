@@ -1,9 +1,5 @@
 import os
 import flask
-from tmbd import get_random_movie
-from wiki import get_wiki_url
-from models import Comment, User, db
-from dotenv import find_dotenv, load_dotenv
 from flask_login import (
     LoginManager,
     login_required,
@@ -11,13 +7,19 @@ from flask_login import (
     login_user,
     logout_user,
 )
-from comments import fetchComments
+from dotenv import find_dotenv, load_dotenv
+
+from tmbd import get_random_movie
+from wiki import get_wiki_url
+from models import Comment, User, db
+
+from comments import fetch_comments
 
 load_dotenv(find_dotenv())
 login_manager = LoginManager()
 
 app = flask.Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DB_URL")
 # Gets rid of a warning
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
@@ -34,14 +36,15 @@ with app.app_context():
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+#All routes contained here
 
 @app.route("/")  # Python decorator
 @login_required
 def main():
     movie_details = get_random_movie()
     wiki_id = get_wiki_url(movie_details["title"] + movie_details["date"])
-    print(movie_details["movieID"])
-    comments = fetchComments(movie_details["movieID"])
+    #Get comments for the random movie id
+    comments = fetch_comments(movie_details["movie_id"])
     return flask.render_template(
         "index.html", data=movie_details, wiki_id=wiki_id, comments=comments
     )
@@ -52,14 +55,13 @@ def login():
     if flask.request.method == "POST":
         username = flask.request.form["username"]
         user = User.query.filter_by(username=username).first()
-        print(user)
+        #If user exists, login. If not, flash error
         if user:
             login_user(user)
             return flask.redirect(flask.url_for("main"))
-        else:
-            flask.flash("User does not exist!")
-            return flask.redirect(flask.url_for("login"))
-
+        flask.flash("User does not exist!")
+        return flask.redirect(flask.url_for("login"))
+    #GET route
     return flask.render_template("login.html")
 
 
@@ -67,19 +69,25 @@ def login():
 def signup():
     if flask.request.method == "POST":
         username = flask.request.form["username"]
-        user = User(username)
-        existing = User.query.filter_by(username=username).all()
-        if not existing:
-            db.session.add(user)
-            db.session.commit()
-            user = User.query.filter_by(username=username).first()
-            login_user(user)
-            return flask.redirect(flask.url_for("login"))
-        else:
+        if (len(username.strip()) >= 3):
+            user = User(username)
+            existing = User.query.filter_by(username=username).all()
+            if not existing:
+                #Add user if username isnt taken
+                db.session.add(user)
+                db.session.commit()
+                user = User.query.filter_by(username=username).first()
+                login_user(user)
+                return flask.redirect(flask.url_for("login"))
+            #If taken, flash error
             flask.flash("Username already exists!")
-            return flask.redirect(flask.url_for("signup"))
-    else:
-        return flask.render_template("signup.html")
+        else:
+            #If empty username, flash error
+            flask.flash("Empty usernames are not allowed!")
+        #Redirect to signup if any errors
+        return flask.redirect(flask.url_for("signup"))
+    #GET route 
+    return flask.render_template("signup.html")
 
 
 @app.route("/logout", methods=["POST"])
@@ -88,15 +96,17 @@ def logout():
     return flask.redirect(flask.url_for("login"))
 
 
-@app.route("/comment/<movieID>", methods=["POST"])
-def postComment(movieID):
-    commentText, commentRating = (
+@app.route("/comment/<movie_id>", methods=["POST"])
+def post_comment(movie_id):
+    comment_text, comment_rating = (
         flask.request.form["text"],
         flask.request.form["rating"],
     )
-    comment = Comment(current_user.username, movieID, commentText, commentRating)
-    db.session.add(comment)
-    db.session.commit()
+    #Ensure comment length > 3
+    if (len(comment_text.strip()) >= 3):
+        comment = Comment(current_user.username, movie_id, comment_text, comment_rating)
+        db.session.add(comment)
+        db.session.commit()
     return flask.redirect(flask.url_for("main"))
 
 
