@@ -13,12 +13,17 @@ from tmbd import get_random_movie
 from wiki import get_wiki_url
 from models import Comment, User, db
 
-from comments import fetch_comments
+from comments import fetch_movie_comments, fetch_user_comments
 
 load_dotenv(find_dotenv())
 login_manager = LoginManager()
 
 app = flask.Flask(__name__)
+bp = flask.Blueprint(
+    "bp",
+    __name__,
+    template_folder="./static/react",
+)
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DB_URL")
 # Gets rid of a warning
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -36,17 +41,26 @@ with app.app_context():
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-#All routes contained here
+
+# All routes contained here
+
+
+@bp.route("/profile")
+def index():
+    # NB: DO NOT add an "index.html" file in your normal templates folder
+    # Flask will stop serving this React page correctly
+    return flask.render_template("index.html")
+
 
 @app.route("/")  # Python decorator
 @login_required
 def main():
     movie_details = get_random_movie()
     wiki_id = get_wiki_url(movie_details["title"] + movie_details["date"])
-    #Get comments for the random movie id
-    comments = fetch_comments(movie_details["movie_id"])
+    # Get comments for the random movie id
+    comments = fetch_movie_comments(movie_details["movie_id"])
     return flask.render_template(
-        "index.html", data=movie_details, wiki_id=wiki_id, comments=comments
+        "home.html", data=movie_details, wiki_id=wiki_id, comments=comments
     )
 
 
@@ -55,13 +69,13 @@ def login():
     if flask.request.method == "POST":
         username = flask.request.form["username"]
         user = User.query.filter_by(username=username).first()
-        #If user exists, login. If not, flash error
+        # If user exists, login. If not, flash error
         if user:
             login_user(user)
             return flask.redirect(flask.url_for("main"))
         flask.flash("User does not exist!")
         return flask.redirect(flask.url_for("login"))
-    #GET route
+    # GET route
     return flask.render_template("login.html")
 
 
@@ -73,20 +87,20 @@ def signup():
             user = User(username)
             existing = User.query.filter_by(username=username).all()
             if not existing:
-                #Add user if username isnt taken
+                # Add user if username isnt taken
                 db.session.add(user)
                 db.session.commit()
                 user = User.query.filter_by(username=username).first()
                 login_user(user)
                 return flask.redirect(flask.url_for("login"))
-            #If taken, flash error
+            # If taken, flash error
             flask.flash("Username already exists!")
         else:
-            #If empty username, flash error
+            # If empty username, flash error
             flask.flash("Empty usernames are not allowed!")
-        #Redirect to signup if any errors
+        # Redirect to signup if any errors
         return flask.redirect(flask.url_for("signup"))
-    #GET route
+    # GET route
     return flask.render_template("signup.html")
 
 
@@ -102,12 +116,30 @@ def post_comment(movie_id):
         flask.request.form["text"],
         flask.request.form["rating"],
     )
-    #Ensure comment length > 3
+    # Ensure comment length > 3
     if len(comment_text.strip()) >= 3:
         comment = Comment(current_user.username, movie_id, comment_text, comment_rating)
         db.session.add(comment)
         db.session.commit()
     return flask.redirect(flask.url_for("main"))
+
+
+@app.route("/comments")
+def get_user_comments():
+    def deconstruct(comment):
+        return {
+            "id": comment.id,
+            "rating": comment.rating,
+            "username": comment.username,
+            "movie_id": comment.movie_id,
+            "text": comment.text,
+        }
+
+    allComments = list(map(deconstruct, fetch_user_comments(current_user.username)))
+    return {"comments": allComments}
+
+
+app.register_blueprint(bp)
 
 
 app.run(

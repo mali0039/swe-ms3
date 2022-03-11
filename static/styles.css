@@ -47,7 +47,8 @@ video {
     width: 80%;
     border: 3px solid white;
     margin: 0 auto;
-    background-color: #242222;
+    border-color: rgb(48, 52, 54);
+    background-color: rgb(26, 29, 30);
     margin-top: 50px;
     border-radius: 20px;
 }
