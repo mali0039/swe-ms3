@@ -123,6 +123,15 @@ def post_comment(movie_id):
         db.session.commit()
     return flask.redirect(flask.url_for("main"))
 
+@app.route("/updateComments", methods=["POST"])
+def post_update_comments():
+    comments = flask.request.get_json()
+    for comment in comments:
+        oldComment = Comment.query.filter_by(id=comment["id"]).first()
+        oldComment.text = comment["text"]
+        oldComment.rating = comment["rating"]
+    db.session.commit()
+    return {"status": "success"}
 
 @app.route("/comments")
 def get_user_comments():
