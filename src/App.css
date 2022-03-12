@@ -8,9 +8,9 @@ body {
 }
 .comment-container {
   margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
 }
 .comment {
   text-align: center; 

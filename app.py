@@ -123,15 +123,22 @@ def post_comment(movie_id):
         db.session.commit()
     return flask.redirect(flask.url_for("main"))
 
+
 @app.route("/updateComments", methods=["POST"])
 def post_update_comments():
+    Comment.query.filter_by(username=current_user.username).delete()
     comments = flask.request.get_json()
     for comment in comments:
-        oldComment = Comment.query.filter_by(id=comment["id"]).first()
-        oldComment.text = comment["text"]
-        oldComment.rating = comment["rating"]
+        comment = Comment(
+            current_user.username,
+            comment["movie_id"],
+            comment["text"],
+            comment["rating"],
+        )
+        db.session.add(comment)
     db.session.commit()
     return {"status": "success"}
+
 
 @app.route("/comments")
 def get_user_comments():
@@ -144,8 +151,8 @@ def get_user_comments():
             "text": comment.text,
         }
 
-    allComments = list(map(deconstruct, fetch_user_comments(current_user.username)))
-    return {"comments": allComments}
+    all_comments = list(map(deconstruct, fetch_user_comments(current_user.username)))
+    return {"comments": all_comments}
 
 
 app.register_blueprint(bp)

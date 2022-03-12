@@ -21,11 +21,11 @@ https://peaceful-anchorage-37623.herokuapp.com/
 6. `pip install psycopg2-binary`
 
 ### Setup
-
-1. Create `.env` file in your main directory
-2. Add your TMBD key from https://developers.themoviedb.org/3/getting-started/introduction to your .env file and name it: `API_KEY`
-3. Add your database url to the .env as `DB_URL`
-4. Add a secret key to your .env as `SECRET_KEY`
+1. Run `npm install` to install dependencies
+2. Create `.env` file in your main directory
+3. Add your TMBD key from https://developers.themoviedb.org/3/getting-started/introduction to your .env file and name it: `API_KEY`
+4. Add your database url to the .env as `DB_URL`
+5. Add a secret key to your .env as `SECRET_KEY`
 
 ### Run application
 
@@ -38,6 +38,13 @@ When planning I envisoned each user model to have a list of comments. This way, 
 
 ## Technical Issues Encountered
 
-1. I encountered an issue where each movie could only have a single comment under it. The error mentioned that I defined the movie_ids attribute of the comments to be unique, which caused the issue. To resolve it, I dropped the comments table and modified the movie_ids column so it was no longer unique. This fixed my issue.
+1. I ran into an issue where I would update a comment but it would not update the state. This was caused by forgetting to set the state whenever the comment would change (within the onChange function of the input).
 
-2. I encountered an issue where I wasn't sure how to retrieve the movie id that would be stored with the comment. I searched up route variables in flask and figured out that I could append the movie id to the route and retreive it in the function as a parameter. This allowed me to store the movie id with the comment. 
+2. I encountered an issue where I wasn't sure how to retrieve the comments from the database. I figured out that I could create a get route and call the route using fetch in my react component.
+
+3. I encountered an issue where I was not able to dynamically delete a comment or rating from the database. I solved it by passing in the comments ID and searching for it within the database and then deleting it. 
+
+## Hardest part / MVL 
+
+The hardest part of the project was setting up the state correctly in my React. I am new to React and wasn’t sure how props/state worked. The most valuable learning experience was being able to create a backend and connect it to a React front end. 
+
