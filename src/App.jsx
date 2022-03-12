@@ -62,10 +62,8 @@ function App() {
       <a href="/"> Back to home </a>
       <h1> Your Comments </h1>
       <div className="comment-container">
-        // eslint-disable-next-line max-len
         {comments.map((comment) => <Comment deleteComment={deleteComment} id={comment.id} updateRating={updateRating} updateComment={updateComment} text={comment.text} rating={comment.rating} />)}
       </div>
-      // eslint-disable-next-line react/button-has-type
       <button onClick={saveComments}>SAVE CHANGES</button>
     </div>
   );
