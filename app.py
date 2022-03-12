@@ -49,7 +49,7 @@ def load_user(user_id):
 def index():
     # NB: DO NOT add an "index.html" file in your normal templates folder
     # Flask will stop serving this React page correctly
-    return flask.render_template("index.html")
+    return flask.render_template("static/react/index.htmlindex.html")
 
 
 @app.route("/")  # Python decorator
